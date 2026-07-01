@@ -3,7 +3,7 @@
 #' This functions compiles the zipped folders in a Sensorgnome data package and compiles them into a .txt file.
 #' @param folder_path the path to the extracted folder with the Sensorgnome data. It should look like: "SG-1AAARPI3A1AB-2026-07-01T14_20_55.123Z/".
 #' @param output_file the desired name of the output file. Don't forget to include the ".txt" extension at the end.
-
+#' @export
 
 extract_sg <- function(folder_path, output_file) {
 

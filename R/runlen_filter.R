@@ -4,7 +4,7 @@
 #' @param x a data frame created by the [search_code()] function.
 #' @param burst_interval the tag's burst interval (eg. 6.7 or 15.1).
 #' @param gap the number of bursts that can be missed before a new run starts. Defaults to 13.
-
+#' @export
 runlen_filter <- function(x, burst_interval,
                           gap = 13) {
 

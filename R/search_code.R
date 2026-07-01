@@ -14,6 +14,7 @@
 #' @param create_csv logical. If TRUE, output_file and output_dir must be specified. Defaults to FALSE.
 #' @param output_file the name of the .csv file to be created.
 #' @param output_dir the directory you want the file to be stored in. If no directory is specified, the file will be created in the working directory.
+#' @export
 #' @details
 #' This process is not meant to replace the process used by the broader Motus network, but is simply meant to be used to quickly process raw Sensorgnome data to diagnose deployment issues or search known tags quickly.
 

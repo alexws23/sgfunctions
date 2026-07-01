@@ -3,6 +3,7 @@
 #' This function reads and cleans the compiled .txt file produced by the [extract_sg()] function.
 #' @param x the file name and path of the .txt file you want to read.
 #' @param keep_only_ports logical. Specifies if you want to filter out all data except pulse data. Defaults to TRUE. It is highly recommended that you do not change this parameter unless you have experience working with this data.
+#' @export
 
 read_sg <- function(x,
                     keep_only_ports = TRUE) {
