@@ -2,7 +2,7 @@
 #'
 #' This function reads the complied .txt file created by the [extract_sg()] function and outputs a data fram with just the Sensorgnome GPS data, which is useful for diagnosing issues.
 #' @param x the file name and path of the .txt file you want to read.
-#' @param keep_only_ports logical. Specifies if you want to filter out all data except pulse data. Defaults to TRUE. It is highly recommended that you do not change this parameter unless you have experience working with this data.
+#' @param tz specifies which timezone you want the data to output in. A character string. The time zone specification to be used for the conversion, if one is required. System-specific ([`time zones`]), but "" is the current time zone, and "GMT" is UTC (Universal Time, Coordinated). Invalid values are most commonly treated as UTC, on some platforms with a warning. Defaults to "UTC"
 #' @export
 
 read_sg_gps <- function(x, tz = "UTC") {
