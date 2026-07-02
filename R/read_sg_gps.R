@@ -19,10 +19,9 @@ read_sg_gps <- function(x, tz = "UTC") {
     stringsAsFactors = FALSE
   )
 
-  if (keep_only_ports == TRUE) {
-    # Keep only ports
+    # Keep only gps data
     data <- data[grepl("^G", data$V1), ]
-  }
+
 
   colnames(data) <- c(
     "GPS",
