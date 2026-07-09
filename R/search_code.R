@@ -90,8 +90,9 @@ search_code <- function(x,
 
   all_ports <- dplyr::bind_rows(results, .id = "port")
 
-  if (is.null(dim(all_ports))) {
+  if (dim(all_ports)[1] == 0) {
     message("Tag not detected in dataset")
+    return(NULL)
   }else{
 
   all_ports$port <- gsub("p", "", all_ports$port)
