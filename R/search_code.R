@@ -90,9 +90,12 @@ search_code <- function(x,
 
   all_ports <- dplyr::bind_rows(results, .id = "port")
 
-  names(all_ports)
-  class(all_ports)
-  str(all_ports$time)
+  names <- names(all_ports)
+  return(names)
+  class <- class(all_ports)
+  return(class)
+  str <- str(all_ports$time)
+  return(str)
   if (is.null(all_ports)) {
     message("Tag not detected in dataset")
   }else{
