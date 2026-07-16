@@ -25,8 +25,6 @@ read_sg <- function(x,
     data <- data[grepl("^p", data$V1), ]
   }
 
-  data[, -c(5)]
-
   colnames(data) <- c(
     "port",
     "time",
@@ -34,6 +32,8 @@ read_sg <- function(x,
     "power",
     "noise"
   )
+
+  dat <- data[, names(ata) != "" & !is.na(names(data))]
 
   # Convert types
   data$time <- as.numeric(data$time)
