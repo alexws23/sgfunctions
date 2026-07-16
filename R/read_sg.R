@@ -33,7 +33,8 @@ read_sg <- function(x,
     "noise"
   )
 
-  dplyr::select(data, c("port", "time", "freq", "power", "noise"))
+  data |>
+  dplyr::select(c(port, time, freq, power, noise))
   # Convert types
   data$time <- as.numeric(data$time)
   data$power <- as.numeric(data$power)
