@@ -31,6 +31,8 @@ read_sg_gps <- function(x, tz = "UTC") {
     "alt"
   )
 
+  data <- data[, names(data) != "" & !is.na(names(data))]
+
   # Convert types
   data$time <- as.numeric(data$time)
   data$time <- as.POSIXct(data$time, origin="1970-01-01", tz = "UTC")
