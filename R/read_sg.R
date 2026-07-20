@@ -32,14 +32,17 @@ read_sg <- function(x,
   if (keep_only_ports == TRUE) {
     # Keep only ports
     # Remove rows starting with C, G, or S
-    data <- data[!substr(data$port, 1, 1) %in% c("C", "G", "S"), ]
+    data <- data[grepl("^p|^T", data$port), ]
   }
 
   # Convert types
   data$time <- as.numeric(data$time)
   data$power <- as.numeric(data$power)
   data$noise <- as.numeric(data$noise)
+  data$noise <- as.numeric(data$S2N)
 
   return(data)
 }
 
+all_data |>
+  dplyr::filter(port == "31.3025")
