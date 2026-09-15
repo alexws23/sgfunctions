@@ -38,8 +38,9 @@ read_sg <- function(x,
   # Convert types
   data$time <- as.numeric(data$time)
   data$power <- as.numeric(data$power)
+  data$freq <- as.numeric(data$freq)
   data$noise <- as.numeric(data$noise)
-  data$noise <- as.numeric(data$S2N)
+  data$S2N <- as.numeric(data$S2N)
 
   return(data)
 }
