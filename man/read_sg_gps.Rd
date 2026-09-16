@@ -12,5 +12,5 @@ read_sg_gps(x, tz = "UTC")
 \item{tz}{specifies which timezone you want the data to output in. A character string. The time zone specification to be used for the conversion, if one is required. System-specific (\code{\link{time zones}}), but "" is the current time zone, and "GMT" is UTC (Universal Time, Coordinated). Invalid values are most commonly treated as UTC, on some platforms with a warning. Defaults to "UTC"}
 }
 \description{
-This function reads the complied .txt file created by the \code{\link[=extract_sg]{extract_sg()}} function and outputs a data fram with just the Sensorgnome GPS data, which is useful for diagnosing issues.
+This function reads the complied .txt file created by the \code{\link[=extract_sg]{extract_sg()}} function and outputs a data frame with just the Sensorgnome GPS data, which is useful for diagnosing issues.
 }
