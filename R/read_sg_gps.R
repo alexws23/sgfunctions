@@ -11,25 +11,32 @@ read_sg_gps <- function(x, tz = "UTC") {
     stop("Please specify a .txt file")
   }
 
-  # Read data
-  data <- utils::read.csv(
-    x,
-    header = FALSE,
-    fill = TRUE,
-    stringsAsFactors = FALSE
-  )
+  lines <- readLines(x)
 
-    # Keep only gps data
-    data <- data[grepl("^G", data$V1), ]
+  # Split each line by comma
+  split_lines <- strsplit(lines, ",")
+
+  # Force each row to have exactly 6 columns
+  split_fixed <- lapply(split_lines, function(x) {
+    length(x) <- 6   # pad with NAs or truncate to length 6
+    x
+  })
 
 
+  # Convert to data frame
+  data <- as.data.frame(do.call(rbind, split_fixed), stringsAsFactors = FALSE)
+
+  # Keep only gps data
+  data <- data[grepl("^G", data$V1), ]
+
+  # Assign column names
   colnames(data) <- c(
-    "GPS",
-    "time",
-    "lat",
-    "lon",
-    "alt"
-  )
+      "GPS",
+      "time",
+      "lat",
+      "lon",
+      "alt"
+    )
 
   data <- data[, names(data) != "" & !is.na(names(data))]
 
