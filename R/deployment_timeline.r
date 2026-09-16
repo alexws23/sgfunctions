@@ -18,27 +18,55 @@ deployment_timeline <- function(x,
     path = wd
   }
 
-  gps <- x
+  # Check if the object referenced in the function uses gps or clock fixes
+  if (names(x)[1] == "GPS") {
 
-  gps <- gps[, names(gps) != "" & !is.na(names(gps))]
+    gps <- x
+    # Ensure there are now empty columns or columns without names
+    gps <- gps[, names(gps) != "" & !is.na(names(gps))]
+    # Keep only one row for each time point
+    gps <- gps |>
+      dplyr::distinct(time, .keep_all = TRUE)
+    # Order the dataframe by time
+    gps <- gps[order(gps$time), ]
+    # Calculate the time difference between two rows
+    gps$diff <- difftime(gps$time, dplyr::lag(gps$time))
+    # Calculate the width of the output plot
+    width <- signif(dplyr::n_distinct(lubridate::date(gps$time))/3,digits = 2)
+    # Create plot
+    plot <- ggplot2::ggplot()+
+      ggplot2::geom_point(data = gps, ggplot2::aes(x = time, y = 0), color = "forestgreen", shape = 15)+
+      ggplot2::scale_x_datetime(date_breaks = "1 day", date_labels = "%m-%d-%y", expand = ggplot2::expansion(c(0.005, 0.005)))+
+      ggplot2::theme_minimal()+
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1),
+                     axis.text.y = ggplot2::element_blank())+
+      ggplot2::labs(y= "")
+    #Save Plot
+    ggplot2::ggsave(filename = filename,plot = plot,width = width, height = 2, limitsize = F, path = path, create.dir = create.dir)
+  } else {
 
-  gps <- gps |>
-    dplyr::distinct(time, .keep_all = TRUE)
-
-  gps <- gps[order(gps$time), ]
-
-  gps$diff <- difftime(gps$time, dplyr::lag(gps$time))
-
-  width <- signif(dplyr::n_distinct(lubridate::date(gps$time))/3,digits = 2)
-
-  plot <- ggplot2::ggplot()+
-    ggplot2::geom_point(data = gps, ggplot2::aes(x = time, y = 0), color = "forestgreen", shape = 15)+
-    ggplot2::scale_x_datetime(date_breaks = "1 day", date_labels = "%m-%d-%y", expand = ggplot2::expansion(c(0.005, 0.005)))+
-    ggplot2::theme_minimal()+
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1),
-                 axis.text.y = ggplot2::element_blank())+
-    ggplot2::labs(y= "")
-
-  ggplot2::ggsave(filename = filename,plot = plot,width = width, height = 2, limitsize = F, path = path, create.dir = create.dir)
+    c <- x
+    # Ensure there are now empty columns or columns without names
+    c <- c[, names(c) != "" & !is.na(names(c))]
+    # Keep only one row for each time point
+    c <- c |>
+      dplyr::distinct(time, .keep_all = TRUE)
+    # Order the dataframe by time
+    c <- c[order(c$time), ]
+    # Calculate the time difference between two rows
+    c$diff <- difftime(c$time, dplyr::lag(c$time))
+    # Calculate the width of the output plot
+    width <- signif(dplyr::n_distinct(lubridate::date(c$time))/3,digits = 2)
+    # Create plot
+    plot <- ggplot2::ggplot()+
+      ggplot2::geom_point(data = c, ggplot2::aes(x = time, y = 0), color = "forestgreen", shape = 15)+
+      ggplot2::scale_x_datetime(date_breaks = "1 day", date_labels = "%m-%d-%y", expand = ggplot2::expansion(c(0.005, 0.005)))+
+      ggplot2::theme_minimal()+
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1),
+                     axis.text.y = ggplot2::element_blank())+
+      ggplot2::labs(y= "")
+    #Save Plot
+    ggplot2::ggsave(filename = filename,plot = plot,width = width, height = 2, limitsize = F, path = path, create.dir = create.dir)
+  }
 
 }

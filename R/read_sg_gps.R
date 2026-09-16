@@ -26,11 +26,16 @@ read_sg_gps <- function(x, tz = "UTC") {
   # Convert to data frame
   data <- as.data.frame(do.call(rbind, split_fixed), stringsAsFactors = FALSE)
 
-  # Keep only gps data
-  data <- data[grepl("^G", data$V1), ]
+  g <- data |>
+    dplyr::filter(V1 == "G") |>
+    nrow()
 
-  # Assign column names
-  colnames(data) <- c(
+  if (g>30) {
+    # Keep only gps data
+    data <- data[grepl("^G", data$V1), ]
+
+    # Assign column names
+    colnames(data) <- c(
       "GPS",
       "time",
       "lat",
@@ -38,12 +43,36 @@ read_sg_gps <- function(x, tz = "UTC") {
       "alt"
     )
 
-  data <- data[, names(data) != "" & !is.na(names(data))]
+    data <- data[, names(data) != "" & !is.na(names(data))]
 
-  # Convert types
-  data$time <- as.numeric(data$time)
-  data$time <- as.POSIXct(data$time, origin="1970-01-01", tz = "UTC")
-  data$time <-  lubridate::with_tz(data$time, tzone = tz)
+    # Convert types
+    data$time <- as.numeric(data$time)
+    data$time <- as.POSIXct(data$time, origin="1970-01-01", tz = "UTC")
+    data$time <-  lubridate::with_tz(data$time, tzone = tz)
 
-  return(data)
+    return(data)
+  } else {
+    message("GPS Fix Data Missing. Swapping to clock fixes")
+    # Keep only gps data
+    data <- data[grepl("^C", data$V1), ]
+
+    # Assign column names
+    colnames(data) <- c(
+      "Clock",
+      "time",
+      "prec",
+      "elapses"
+    )
+
+    data <- data[, names(data) != "" & !is.na(names(data))]
+
+    # Convert types
+    data$time <- as.numeric(data$time)
+    data$time <- as.POSIXct(data$time, origin="1970-01-01", tz = "UTC")
+    data$time <-  lubridate::with_tz(data$time, tzone = tz)
+
+    return(data)
+  }
+
+
 }
